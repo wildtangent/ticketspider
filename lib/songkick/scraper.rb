@@ -8,7 +8,7 @@ module Songkick
     require 'active_support/core_ext/hash'
   
     # Access the URL, content and raw doc
-    attr_accessor :content, :doc, :url
+    attr_accessor :content, :doc, :url, :spider
 
     # Iniitialze the scraper passing in the start URL
     def initialize(url, spider=nil)
@@ -27,6 +27,7 @@ module Songkick
     def items
       []
     end
+    alias_method :run, :items
     
     # Cast to JSON string
     def to_json

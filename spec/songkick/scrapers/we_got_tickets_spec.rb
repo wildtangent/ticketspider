@@ -1,10 +1,18 @@
 # encoding: utf-8 
 require 'spec_helper'
 
-describe Songkick::WeGotTickets do
+describe Songkick::Scrapers::WeGotTickets do
   
   let :scraper do
-    Songkick::WeGotTickets.new(start_url)
+    Songkick::Scrapers::WeGotTickets.new(start_url)
+  end
+  
+  let :scraper_with_spider do
+    Songkick::Scrapers::WeGotTickets.new(start_url, spider)
+  end
+  
+  let :spider do 
+    Songkick::Spiders::WeGotTickets.new
   end
   
   let :start_url do
@@ -58,6 +66,11 @@ describe Songkick::WeGotTickets do
       file.read.should == scraper.to_json      
     end
     FileUtils.rm(filename)
+  end
+  
+  it 'should add callbacks if a spider is provider', :vcr do
+    scraper_with_spider.items
+    scraper_with_spider.spider.urls.first.to_s.should == "http://www.wegottickets.com/event/206480"
   end
   
 end

@@ -1,3 +1,4 @@
+require './lib/songkick/callbacks'
 require './lib/songkick/scraper'
 require './lib/songkick/spider'
 require './lib/songkick/listing_item'
