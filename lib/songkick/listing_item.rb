@@ -23,7 +23,13 @@ module Songkick
       @date_time = DateTime.parse(date_time)
     end
     
+    # Cast item to a JSON string
     def to_json
+      to_hash.to_json
+    end
+    
+    # Cast item to a hash
+    def to_hash
       {
         artist: artist,
         city: city,

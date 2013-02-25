@@ -40,7 +40,11 @@ describe Songkick::WeGotTickets do
   end
   
   it 'should return some json', :vcr do
-    scraper.to_json.should == {foo: "foo"}
+    scraper.to_json.should include '"artist":"BASSMENT PROJECT"'
+  end
+  
+  it 'should return a hash', :vcr do
+    scraper.to_hash[0][:city].should == "OXFORD"
   end
   
 end

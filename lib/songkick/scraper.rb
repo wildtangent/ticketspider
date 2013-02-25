@@ -4,6 +4,8 @@ module Songkick
     require 'nokogiri'
     require 'open-uri'
     require 'json'
+    require 'active_support/core_ext/array'
+    require 'active_support/core_ext/hash'
   
     # Access the URL, content and raw doc
     attr_accessor :content, :doc, :url
@@ -25,9 +27,14 @@ module Songkick
       []
     end
     
-    # TODO: need to cast to JSON string
+    # Cast to JSON string
     def to_json
-      items JSON.parse(items.map(&:to_json))
+      to_hash.to_json
+    end
+     
+    # Cast items to hash
+    def to_hash
+      items.map(&:to_hash)  
     end
   
   end
