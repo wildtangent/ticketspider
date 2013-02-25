@@ -39,7 +39,7 @@ describe Songkick::Scrapers::WeGotTickets do
     scraper.items.map(&:city).should include("READING")
   end
   
-  it 'sohuld have a date of Monday 25th Feb 2013 at 18:30PM', :vcr do
+  it 'should have a date of Monday 25th Feb 2013 at 18:30PM', :vcr do
     scraper.items.collect{|item| item.date_time.to_s }.should include DateTime.parse("2013-02-25 18:30").to_s
   end
   
@@ -60,12 +60,15 @@ describe Songkick::Scrapers::WeGotTickets do
   end
   
   it 'should write a file to disk', :vcr do
-    filename = "output/we_got_tickets.json"
-    scraper.export_json(filename)
-    File.open(filename) do |file|
-      file.read.should == scraper.to_json      
+    begin
+      filename = "output/we_got_tickets.json"
+      scraper.export_json(filename)
+      File.open(filename) do |file|
+        file.read.should == scraper.to_json      
+      end
+    ensure
+      FileUtils.rm(filename)
     end
-    FileUtils.rm(filename)
   end
   
   it 'should add callbacks if a spider is provider', :vcr do

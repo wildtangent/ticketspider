@@ -7,17 +7,16 @@ module Songkick
     require 'active_support/core_ext/array'
     require 'active_support/core_ext/hash'
   
-    # Access the URL, content and raw doc
-    attr_accessor :content, :doc, :url, :spider
+    # Access the URL, and raw doc
+    attr_accessor :doc, :url, :spider
 
     # Iniitialze the scraper passing in the start URL
     def initialize(url, spider=nil)
       @url = url
-      @content = nil
       @spider = spider
-      @doc = Nokogiri::HTML(open(@url)) 
+      @doc = Nokogiri::HTML(open(@url))
     end
-  
+    
     # Return the HTML content of the page
     def content
       @doc.to_s

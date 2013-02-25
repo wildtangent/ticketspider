@@ -5,6 +5,7 @@ module Songkick
       extend Songkick::Utils::Callbacks
       
       callback :on_url
+      callback :on_page_complete
       
       def initialize(url, spider=nil)
         super
@@ -21,7 +22,7 @@ module Songkick
     
       # Parse the items using Nokogiri and return an array of ListingItems
       def parse_items
-        @items = []
+        @items ||= []
         @doc.css(".TicketListing .ListingOuter").each do |item|
           listing = Songkick::ListingItem.new
           listing.url = item.at_css("h3 a")['href']
@@ -39,7 +40,13 @@ module Songkick
         
           @items << listing
         end
+        on_page_complete
+        
         @items
+      end
+      
+      def next_page!
+        
       end
       
       # Add some callbacks on the model
@@ -47,6 +54,12 @@ module Songkick
         on_url do |url|
           @spider.add_url(url) if @spider
         end
+        
+        on_page_complete do 
+          next_page!
+          #parse_items
+        end
+        
       end
   
     end
