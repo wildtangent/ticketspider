@@ -11,9 +11,10 @@ module Songkick
     attr_accessor :content, :doc, :url
 
     # Iniitialze the scraper passing in the start URL
-    def initialize(url)
+    def initialize(url, spider=nil)
       @url = url
       @content = nil
+      @spider = spider
       @doc = Nokogiri::HTML(open(@url)) 
     end
   
