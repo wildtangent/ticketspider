@@ -9,6 +9,7 @@ module Songkick
       
       def initialize(url, spider=nil)
         super
+        @max_depth = 50
         register_callbacks!
       end
       
@@ -45,19 +46,26 @@ module Songkick
         @items
       end
       
+      # Get the next page and fire the on_url handler
       def next_page!
-        
+        page = @doc.css(".paginator span.pagination_current").first
+        @next_page = page.next_element["href"] if page
+        on_url(@next_page) if @next_page
       end
       
       # Add some callbacks on the model
       def register_callbacks!
         on_url do |url|
-          @spider.add_url(url) if @spider
+          if @spider && @spider.followed_urls.count <= @max_depth
+            #puts "Adding url #{url}"
+            @spider.add_url(url) 
+          else
+            #puts "reached maximum depth"
+          end
         end
         
         on_page_complete do 
           next_page!
-          #parse_items
         end
         
       end

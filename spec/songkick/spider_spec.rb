@@ -21,7 +21,6 @@ describe Songkick::Spider do
   
   it 'should not run without implementation' do
     expect { spider.run }.to raise_error
-  end
-    
+  end    
   
 end

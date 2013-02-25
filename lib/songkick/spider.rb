@@ -2,6 +2,8 @@ module Songkick
   
   class Spider
     
+    class  NoScraperError < Exception;end;
+    
     require 'uri'
     
     attr_accessor :urls, :followed_urls
@@ -36,9 +38,34 @@ module Songkick
       @followed_urls << url
     end
     
-    # Run the spider
+    # Interface definition for scraper. 
+    # Define in subclass e.g. Songkick::Scrapers::MyScraper
+    def scraper
+      raise NoScraperError, "No scraper class defined. Please implement in the subclass"
+    end
+    
+    # Array of already run scrapers
+    def scrapers
+      @scrapers ||= []
+    end
+    
+    # Get the results from all the scrapers and turn them into a giant hash
+    # Clearly this kind ot technique is going to overflow if we do hundreds of pages
+    def results
+      items = @scrapers.map(&:items).flatten.compact
+      items.map(&:to_hash)
+    end
+    
+    # Loop over the scrapers, adding new URLs as we go.
     def run
-      raise Exception, "Implement in subclass"
+      loop do
+        url = @urls.first
+        s = scraper.new(url, self)
+        scrapers << s
+        s.run
+        followed_url!(url)
+        break if @urls.empty?
+      end 
     end
     
   end
