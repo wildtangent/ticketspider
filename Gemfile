@@ -1,6 +1,9 @@
 source "http://rubygems.org"
 
+gem 'activesupport'
 gem 'nokogiri'
+gem 'rdoc'
+gem 'json'
 
 group :test do
   gem 'rspec'

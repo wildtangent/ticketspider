@@ -1,7 +1,5 @@
 # Songkick Timed Technical Test
 
-TODO
-
 Write software that scrapes concert information from the pages and outputs the data in machine readable format of your choice, e.g. JSON, XML, CSV
 
 http://www.wegottickets.com/searchresults/page/1/all
