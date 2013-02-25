@@ -18,3 +18,12 @@ Choose to include additional information as possibnle
 Musical events only if possible
 
 Perfect data is less important than code quality and working solution end-to-end
+
+## Running the tests
+
+Run the specs by calling
+
+```
+rspec .
+```
+

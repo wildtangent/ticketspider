@@ -27,7 +27,7 @@ module Songkick
     
     # TODO: need to cast to JSON string
     def to_json
-      items #JSON.parse(items.map(&:to_json))
+      items JSON.parse(items.map(&:to_json))
     end
   
   end
