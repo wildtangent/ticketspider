@@ -5,7 +5,7 @@ SimpleCov.start do
   add_filter "/spec/"
 end
 
-require './lib/reevoo'
+require './lib/songkick'
 require 'vcr'
 VCR.configure do |c|
   c.cassette_library_dir = 'spec/cassettes'
