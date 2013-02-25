@@ -47,4 +47,13 @@ describe Songkick::WeGotTickets do
     scraper.to_hash[0][:city].should == "OXFORD"
   end
   
+  it 'should write a file to disk', :vcr do
+    filename = "output/we_got_tickets.json"
+    scraper.export_json(filename)
+    File.open(filename) do |file|
+      file.read.should == scraper.to_json      
+    end
+    FileUtils.rm(filename)
+  end
+  
 end

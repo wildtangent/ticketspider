@@ -36,6 +36,13 @@ module Songkick
     def to_hash
       items.map(&:to_hash)  
     end
+    
+    # Write the JSON to disk
+    def export_json(filename)
+      File.open(filename, "w") do |file|
+        file.write(self.to_json)
+      end
+    end
   
   end
 
