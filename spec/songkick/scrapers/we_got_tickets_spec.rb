@@ -47,6 +47,10 @@ describe Songkick::WeGotTickets do
     scraper.to_hash[0][:city].should == "OXFORD"
   end
   
+  it 'should return any item as JSON', :vcr do
+    scraper.items.first.to_json.should include '"artist":"2001. A SPACE ODYSSEY"'
+  end
+  
   it 'should write a file to disk', :vcr do
     filename = "output/we_got_tickets.json"
     scraper.export_json(filename)
