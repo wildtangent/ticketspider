@@ -1,4 +1,9 @@
 module Songkick
+  
+  # Scraper Base class
+  # Implement core features for a screen scraper.
+  # Accpets a url and optionally a spider class which will have 
+  # additional urls sent to it as they are discovered
   class Scraper
   
     require 'nokogiri'

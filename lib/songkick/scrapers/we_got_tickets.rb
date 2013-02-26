@@ -1,6 +1,18 @@
 module Songkick
+  
+  # Module for all Scraper subclasses
   module Scrapers
+    
+    # Implementation of WeGotTickets screen scraper
+    # Parses the found items by selecting their CSS
+    # Clearly this is pretty brittle if the service changes their HTML code
+    # Whenever a URL is discovered in the items, it is added to the url queue
+    # This could be used to add more metadata about the item
+    # When the page is finished parsing, the on_page_complete event 
+    # fires to look for the next page to process by reading the pagination element
     class WeGotTickets < Scraper
+      
+      @@debug = false
       
       extend Songkick::Utils::Callbacks
       
@@ -25,24 +37,10 @@ module Songkick
       def parse_items
         @items ||= []
         @doc.css(".TicketListing .ListingOuter").each do |item|
-          listing = Songkick::ListingItem.new
-          listing.url = item.at_css("h3 a")['href']
-          on_url(listing.url)
-          
-          listing.artist = item.at_css("h3 a").text
-          listing.city = item.at_css("p span.venuetown").text.gsub(/:/,'').strip
-          listing.venue = item.at_css("p span.venuename").text
-          listing.date_time = item.at_css("p").children[3].text
-        
-          # TODO: Two variations of price at least here, would need improvement
-          price = item.at_css(".searchResultsPrice")
-          price = item.at_css(".ListingPrices") if price.nil?
-          listing.price = price.text
-        
+          listing = Songkick::ListingItems::WeGotTickets.new(item, self)
           @items << listing
         end
         on_page_complete
-        
         @items
       end
       
@@ -56,18 +54,29 @@ module Songkick
       # Add some callbacks on the model
       def register_callbacks!
         on_url do |url|
-          if @spider && @spider.followed_urls.count <= @max_depth
-            #puts "Adding url #{url}"
+          if spider?
+            log "Adding url #{url}"
             @spider.add_url(url) 
           else
-            #puts "reached maximum depth"
+            log "reached maximum depth"
           end
         end
         
         on_page_complete do 
-          next_page!
+          if spider?
+            next_page!
+          end
         end
         
+      end
+      
+      def log(message)
+        puts message if @@debug
+      end
+      
+      # Whether or not to traverse any deeper
+      def spider?
+        @spider && @spider.followed_urls.count <= @max_depth
       end
   
     end

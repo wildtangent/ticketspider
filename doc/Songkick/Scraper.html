@@ -72,7 +72,17 @@
     
     <li><a href="#method-c-new">::new</a>
     
+    <li><a href="#method-i-content">#content</a>
+    
+    <li><a href="#method-i-export_json">#export_json</a>
+    
     <li><a href="#method-i-items">#items</a>
+    
+    <li><a href="#method-i-run">#run</a>
+    
+    <li><a href="#method-i-to_hash">#to_hash</a>
+    
+    <li><a href="#method-i-to_json">#to_json</a>
     
   </ul>
 </nav>
@@ -87,6 +97,8 @@
   
     <li class="file"><a href="../Gemfile.html">Gemfile</a>
   
+    <li class="file"><a href="../Rakefile.html">Rakefile</a>
+  
   </ul>
 </nav>
 
@@ -99,9 +111,27 @@
   
     <li><a href="../Songkick/ListingItem.html">Songkick::ListingItem</a>
   
+    <li><a href="../Songkick/ListingItems.html">Songkick::ListingItems</a>
+  
+    <li><a href="../Songkick/ListingItems/WeGotTickets.html">Songkick::ListingItems::WeGotTickets</a>
+  
     <li><a href="../Songkick/Scraper.html">Songkick::Scraper</a>
   
-    <li><a href="../Songkick/WeGotTickets.html">Songkick::WeGotTickets</a>
+    <li><a href="../Songkick/Scrapers.html">Songkick::Scrapers</a>
+  
+    <li><a href="../Songkick/Scrapers/WeGotTickets.html">Songkick::Scrapers::WeGotTickets</a>
+  
+    <li><a href="../Songkick/Spider.html">Songkick::Spider</a>
+  
+    <li><a href="../Songkick/Spider/NoScraperError.html">Songkick::Spider::NoScraperError</a>
+  
+    <li><a href="../Songkick/Spiders.html">Songkick::Spiders</a>
+  
+    <li><a href="../Songkick/Spiders/WeGotTickets.html">Songkick::Spiders::WeGotTickets</a>
+  
+    <li><a href="../Songkick/Utils.html">Songkick::Utils</a>
+  
+    <li><a href="../Songkick/Utils/Callbacks.html">Songkick::Utils::Callbacks</a>
   
     <li><a href="../Object.html">Object</a>
   
@@ -116,6 +146,10 @@
 
   <div id="description" class="description">
     
+<p><a href="Scraper.html">Scraper</a> Base class Implement core features for a
+screen scraper. Accpets a url and optionally a spider class which will have
+additional urls sent to it as they are discovered</p>
+
   </div><!-- description -->
 
   
@@ -134,19 +168,6 @@
       <h3 class="section-header">Attributes</h3>
 
       
-      <div id="attribute-i-content" class="method-detail">
-        <div class="method-heading attribute-method-heading">
-          <span class="method-name">content</span><span
-            class="attribute-access-type">[RW]</span>
-        </div>
-
-        <div class="method-description">
-        
-        <p>Access the URL, content and raw doc</p>
-        
-        </div>
-      </div>
-      
       <div id="attribute-i-doc" class="method-detail">
         <div class="method-heading attribute-method-heading">
           <span class="method-name">doc</span><span
@@ -155,7 +176,20 @@
 
         <div class="method-description">
         
-        <p>Access the URL, content and raw doc</p>
+        <p>Access the URL, and raw doc</p>
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-spider" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">spider</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        <p>Access the URL, and raw doc</p>
         
         </div>
       </div>
@@ -168,7 +202,7 @@
 
         <div class="method-description">
         
-        <p>Access the URL, content and raw doc</p>
+        <p>Access the URL, and raw doc</p>
         
         </div>
       </div>
@@ -186,7 +220,7 @@
         
         <div class="method-heading">
           <span class="method-name">new</span><span
-            class="method-args">(url)</span>
+            class="method-args">(url, spider=nil)</span>
           <span class="method-click-advice">click to toggle source</span>
         </div>
         
@@ -198,11 +232,11 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/songkick/scraper.rb, line 11</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">url</span>)
+            <pre><span class="ruby-comment"># File lib/songkick/scraper.rb, line 19</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">url</span>, <span class="ruby-identifier">spider</span>=<span class="ruby-keyword">nil</span>)
   <span class="ruby-ivar">@url</span> = <span class="ruby-identifier">url</span>
-  <span class="ruby-ivar">@content</span> = <span class="ruby-keyword">nil</span>
-  <span class="ruby-ivar">@doc</span> = <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">HTML</span>(<span class="ruby-identifier">open</span>(<span class="ruby-ivar">@url</span>)) 
+  <span class="ruby-ivar">@spider</span> = <span class="ruby-identifier">spider</span>
+  <span class="ruby-ivar">@doc</span> = <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">HTML</span>(<span class="ruby-identifier">open</span>(<span class="ruby-ivar">@url</span>))
 <span class="ruby-keyword">end</span></pre>
           </div><!-- new-source -->
           
@@ -218,6 +252,68 @@
   
      <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
       <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-content" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">content</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Return the HTML content of the page</p>
+          
+
+          
+          <div class="method-source-code" id="content-source">
+            <pre><span class="ruby-comment"># File lib/songkick/scraper.rb, line 26</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">content</span>
+  <span class="ruby-ivar">@doc</span>.<span class="ruby-identifier">to_s</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- content-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- content-method -->
+
+    
+      <div id="method-i-export_json" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">export_json</span><span
+            class="method-args">(filename)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Write the JSON to disk</p>
+          
+
+          
+          <div class="method-source-code" id="export_json-source">
+            <pre><span class="ruby-comment"># File lib/songkick/scraper.rb, line 47</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">export_json</span>(<span class="ruby-identifier">filename</span>)
+  <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">filename</span>, <span class="ruby-string">&quot;w&quot;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">file</span>.<span class="ruby-identifier">write</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">to_json</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- export_json-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- export_json-method -->
 
     
       <div id="method-i-items" class="method-detail ">
@@ -236,7 +332,7 @@
 
           
           <div class="method-source-code" id="items-source">
-            <pre><span class="ruby-comment"># File lib/songkick/scraper.rb, line 23</span>
+            <pre><span class="ruby-comment"># File lib/songkick/scraper.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">items</span>
   []
 <span class="ruby-keyword">end</span></pre>
@@ -245,9 +341,100 @@
         </div>
 
         
+        <div class="aliases">
+          Also aliased as: <a href="Scraper.html#method-i-run">run</a>
+        </div>
+        
 
         
       </div><!-- items-method -->
+
+    
+      <div id="method-i-run" class="method-detail method-alias">
+        
+        <div class="method-heading">
+          <span class="method-name">run</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+        </div>
+
+        
+
+        
+        <div class="aliases">
+          Alias for: <a href="Scraper.html#method-i-items">items</a>
+        </div>
+        
+      </div><!-- run-method -->
+
+    
+      <div id="method-i-to_hash" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_hash</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Cast items to hash</p>
+          
+
+          
+          <div class="method-source-code" id="to_hash-source">
+            <pre><span class="ruby-comment"># File lib/songkick/scraper.rb, line 42</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_hash</span>
+  <span class="ruby-identifier">items</span>.<span class="ruby-identifier">map</span>(&amp;<span class="ruby-value">:to_hash</span>)  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_hash-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_hash-method -->
+
+    
+      <div id="method-i-to_json" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_json</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Cast to JSON string</p>
+          
+
+          
+          <div class="method-source-code" id="to_json-source">
+            <pre><span class="ruby-comment"># File lib/songkick/scraper.rb, line 37</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_json</span>
+  <span class="ruby-identifier">to_hash</span>.<span class="ruby-identifier">to_json</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_json-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_json-method -->
 
     
     </section><!-- public-instance-method-details -->

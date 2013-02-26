@@ -1,7 +1,12 @@
 module Songkick
   
+  # Spider implementation
+  # Initialize with a start_url
+  # Call #run to step through the urls until complete
+  # The next step would be to push the spiders off into a queue
   class Spider
     
+    # Raise when no scraper was defined (so can't process anything)
     class  NoScraperError < Exception;end;
     
     require 'uri'
@@ -60,9 +65,9 @@ module Songkick
     def run
       loop do
         url = @urls.first
-        s = scraper.new(url, self)
-        scrapers << s
-        s.run
+        scr = scraper.new(url, self)
+        scrapers << scr
+        scr.run
         followed_url!(url)
         break if @urls.empty?
       end 

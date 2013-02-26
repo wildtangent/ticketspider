@@ -1,5 +1,8 @@
 module Songkick
   
+  # Listing Item used to hold information about and event
+  # Can be instancated with attributes hash or by assigning attributes
+  # :artist, :price, :city, :venue, :url, :date_time
   class ListingItem
     
     # Basic attributes, artist, price, city, venue and date_time as DateTime object
@@ -13,8 +16,8 @@ module Songkick
       @price = attributes[:price]
       @city = attributes[:city]
       @venue = attributes[:venue]
-      @link = attributes[:url]
-      date_time = attributes[:date_time]
+      @url = attributes[:url]
+      self.date_time = attributes[:date_time]
     end
     
     # Parse date time value to DateTime object

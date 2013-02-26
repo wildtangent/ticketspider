@@ -2,6 +2,7 @@ require './lib/songkick/callbacks'
 require './lib/songkick/scraper'
 require './lib/songkick/spider'
 require './lib/songkick/listing_item'
+require './lib/songkick/listing_items/we_got_tickets'
 require './lib/songkick/scrapers/we_got_tickets'
 require './lib/songkick/spiders/we_got_tickets'
 

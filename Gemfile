@@ -4,6 +4,7 @@ gem 'activesupport'
 gem 'nokogiri'
 gem 'rdoc'
 gem 'json'
+gem 'reek'
 
 group :test do
   gem 'rspec'

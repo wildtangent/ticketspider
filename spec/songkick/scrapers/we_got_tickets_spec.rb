@@ -73,7 +73,7 @@ describe Songkick::Scrapers::WeGotTickets do
   
   it 'should add callbacks if a spider is provider', :vcr do
     scraper_with_spider.items
-    scraper_with_spider.spider.urls.first.to_s.should == "http://www.wegottickets.com/event/206480"
+    scraper_with_spider.spider.urls.first.to_s.should == "http://www.wegottickets.com/searchresults/page/2/all"
   end
   
 end
