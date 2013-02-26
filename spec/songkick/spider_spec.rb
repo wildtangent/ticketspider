@@ -19,8 +19,15 @@ describe Songkick::Spider do
     spider.urls.last.to_s.should_not == "\\invalid"
   end
   
-  it 'should not run without implementation' do
-    expect { spider.run }.to raise_error
-  end    
+  it 'should raise an exception if the spider is not subclassed with a scraper class' do
+    expect { spider.scraper }.to raise_error
+end
+
+  # Too tired to make this work :(
+  # it 'should catch an exception while running and log it to errors' do
+  #   spider.should_receive(:run).exactly(:once).and_raise(Exception)
+  #   spider.run
+  #   spider.errors.should_not be_empty
+  # end
   
 end

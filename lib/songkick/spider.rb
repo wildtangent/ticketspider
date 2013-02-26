@@ -11,11 +11,13 @@ module Songkick
     
     require 'uri'
     
-    attr_accessor :urls, :followed_urls
+    attr_accessor :urls, :followed_urls, :errors
     
     # Create a spider with an optional initial url
     def initialize(start_url=nil)
       @followed_urls = []
+      @max_depth = 50
+      @errors = []
       add_url(start_url)
     end
     
@@ -43,6 +45,11 @@ module Songkick
       @followed_urls << url
     end
     
+    # Make sure we've not gone too deep!
+    def reached_maximum_depth?
+      @followed_urls.count <= @max_depth
+    end
+    
     # Interface definition for scraper. 
     # Define in subclass e.g. Songkick::Scrapers::MyScraper
     def scraper
@@ -64,13 +71,18 @@ module Songkick
     # Loop over the scrapers, adding new URLs as we go.
     def run
       loop do
+        print "."
         url = @urls.first
         scr = scraper.new(url, self)
         scrapers << scr
         scr.run
         followed_url!(url)
         break if @urls.empty?
-      end 
+      end
+      true
+    rescue Exception => e
+      @errors << e.to_s
+      false
     end
     
   end

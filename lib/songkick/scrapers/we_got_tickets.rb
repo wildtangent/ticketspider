@@ -21,7 +21,6 @@ module Songkick
       
       def initialize(url, spider=nil)
         super
-        @max_depth = 50
         register_callbacks!
       end
       
@@ -76,7 +75,7 @@ module Songkick
       
       # Whether or not to traverse any deeper
       def spider?
-        @spider && @spider.followed_urls.count <= @max_depth
+        @spider && @spider.reached_maximum_depth?
       end
   
     end
