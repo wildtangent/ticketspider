@@ -16,18 +16,18 @@ rspec .
 ## Implementing the scraper
 
 ```
-require './lib/songkick'
+require './lib/ticketspider'
 url = "http://www.wegottickets.com/searchresults/page/1/all"
-scraper = Songkick::Scrapers::WeGotTickets.new(url)
+scraper = Ticketspider::Scrapers::WeGotTickets.new(url)
 scraper.items 
   # => [
-    Songkick::ListingItems::WeGotTickets,
-    Songkick::ListingItems::WeGotTickets,
-    Songkick::ListingItems::WeGotTickets,
-    Songkick::ListingItems::WeGotTickets,
-    Songkick::ListingItems::WeGotTickets,
-    Songkick::ListingItems::WeGotTickets,
-    Songkick::ListingItems::WeGotTickets
+    Ticketspider::ListingItems::WeGotTickets,
+    Ticketspider::ListingItems::WeGotTickets,
+    Ticketspider::ListingItems::WeGotTickets,
+    Ticketspider::ListingItems::WeGotTickets,
+    Ticketspider::ListingItems::WeGotTickets,
+    Ticketspider::ListingItems::WeGotTickets,
+    Ticketspider::ListingItems::WeGotTickets
   ]
 scraper.items.first.artist #=> "100 CLUB TUESDAY BLUES FEATURING DERRIN NAUENDORF"
 scraper.export_json("events.json")
@@ -36,9 +36,9 @@ scraper.export_json("events.json")
 
 ## Implementing the spider
 ```
-require './lib/songkick'
+require './lib/ticketspider'
 url = "http://www.wegottickets.com/searchresults/page/1/all"
-spider = Songkick::Spiders::WeGotTickets.new(url)
+spider = Ticketspider::Spiders::WeGotTickets.new(url)
 spider.run
 spider.results 
   # => {

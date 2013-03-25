@@ -7,6 +7,8 @@ gem 'json'
 gem 'reek'
 
 group :test do
+  gem 'fakeweb'
+
   gem 'rspec'
   gem 'simplecov', :require => false
   gem 'simplecov-rcov', :require => false
